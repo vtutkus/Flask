@@ -16,8 +16,14 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
                 {% if current_user and current_user.is_authenticated %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profilis</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Atsijungti</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('profile') }}">Profilis</a></li>
+                    {% if current_user.is_worker %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('defects') }}">Gedimai</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('cars') }}">Automobiliai</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('defects') }}">Gedimai</a></li>
+                    {% endif %}
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Atsijungti</a></li>
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Prisijungti</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('registration') }}">Registruotis</a></li>

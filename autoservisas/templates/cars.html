@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if all_my_cars %}
+    <ul class="list-group">
+    {% for car in all_my_cars %}
+        <li class="list-group-item">
+        {{ car.make }} {{ car.model }} {{ car.year }}
+        <a role="button" class="btn btn-primary float-right" href="{{ url_for('home', id=car['id']) }}">redaguoti</a>
+        <a role="button" class="btn btn-danger float-right" href="{{ url_for('home', id=car['id']) }}">trinti</a>
+        {% if car.defect %}<ul class="list-group">
+            <li class="list-group-item">Gedimas: {{ car.defect.description }} Statusas: {{ car.defect.status }}</li>
+        </ul>{% endif %}
+        </li>
+        <li class="list-group-item">KOLKAS NEISVEDA GEDIMU</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+<a class="btn btn-primary" role="button" href="{{ url_for('new_car') }}">Naujas automobilis</a>
+
+{% endblock content %}

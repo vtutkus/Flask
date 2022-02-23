@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     e_mail = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
     is_admin = db.Column(db.Boolean(), default=False)
+    is_worker = db.Column(db.Boolean(), default=False)
 
     def __repr__(self) -> str:
         return self.login
@@ -23,11 +24,23 @@ class Car(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     make = db.Column(db.String(50), nullable=False)
     model = db.Column(db.String(50), nullable=False)
-    year = db.Column(db.Integer(4), nullable=False)
+    year = db.Column(db.Integer(), nullable=False)
     engine = db.Column(db.String(50), nullable=False)
     registration =db.Column(db.String(6), unique=True, nullable=False)
     vin = db.Column(db.String(17), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    vartotojas = db.relationship("User")
     
     def __repr__(self) -> str:
         return f'{self.year} {self.make} {self.model} valstybinis nr:{self.registration}'
 
+class Defect(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(300), nullable=False)
+    status = db.Column(db.String(50), default='naujas', nullable=False)
+    price = db.Column(db.Numeric(8,2), nullable=False, default=0)
+    car_id = db.Column(db.Integer, db.ForeignKey('car.id'))
+    car = db.relationship("Car", lazy=True)
+
+    def __repr__(self) -> str:
+        return self.description

@@ -1,0 +1,35 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<form method="post" action="#">
+    {{form.hidden_tag()}}
+    <div class="form-group">
+      {{form.vardas.label(class="form-control-label")}}
+      {% if tevas %}
+      {{form.vardas(class="form-control", value=tevas.vardas)}}
+      {% else %}
+      {{form.vardas(class="form-control")}}
+      {% endif %}
+    </div>
+    <div class="form-group">
+      {{form.pavarde.label(class="form-control-label")}}
+      {% if tevas %}
+      {{form.pavarde(class="form-control", value=tevas.pavarde)}}
+      {% else %}
+      {{form.pavarde(class="form-control")}}
+      {% endif %}    
+    </div>
+    <div class="form-group">
+      {{form.vaikas.label(class="form-control-label")}}
+      {% if tevas %}
+      {{form.vaikas(class="form-control", value=tevas.vaikas['id'])}}
+      {% if vaikas is not none %}   
+      {{ tevas.vaikas['id'] }}
+      {% endif %}
+      {% else %}
+      {{form.vaikas(class="form-control")}}
+      {% endif %}        
+    </div>
+    {{form.submit()}}
+</form>
+{% endblock content %}
