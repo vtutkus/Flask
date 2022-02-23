@@ -61,6 +61,24 @@ def login():
     return render_template('login.html', form=form, current_user=current_user)
 
 
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    form = forms.ProfileForm()
+    if form.validate_on_submit():
+        current_user.login = form.login.data
+        current_user.e_mail = form.e_mail.data
+        current_user.is_admin = form.is_admin.data
+        db.session.commit()
+        flash('Profilis atnaujintas!', 'success')
+        return redirect(url_for('profile'))
+    elif request.method == "GET":
+        form.login.data = current_user.login
+        form.e_mail.data = current_user.e_mail
+        form.is_admin.data = current_user.is_admin
+    return render_template('profile.html', current_user=current_user, form=form)
+
+
 @app.route('/logout')
 def logout():
     logout_user()

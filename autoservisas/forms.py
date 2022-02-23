@@ -15,12 +15,12 @@ class RegistrationForm(FlaskForm):
     confirmation = PasswordField('Pakartokite slaptazodi', [EqualTo('password', "Slaptazodis nesutampa")])
     submit = SubmitField('Registruotis')
 
-    def tikrinti_varda(self, login):
+    def check_login(self, login):
         new_user = models.User.query.filter_by(login=login.data).first()
         if new_user:
             raise ValidationError('Toks vartotojas jau egzistuoja')
 
-    def tikrinti_pasta(self, e_mail):
+    def check_email(self, e_mail):
         new_email = models.User.query.filter_by(e_mail=e_mail.data).first()
         if new_email:
             raise ValidationError('toks el.paštas jau egzistuoja')
@@ -31,4 +31,20 @@ class LoginForm(FlaskForm):
     password = PasswordField('Slaptazodis', [DataRequired()])
     remember = BooleanField('Prisiminti mane')
     submit = SubmitField('Prisijungti')
+    
+class ProfileForm(FlaskForm):
+    login = StringField('Vardas', [DataRequired()])
+    e_mail = StringField('El.paštas', [DataRequired(), Email(MESSAGE_BAD_EMAIL)])
+    is_admin = BooleanField('Administratorius')
+    submit = SubmitField('Atnaujinti')
+
+    def check_login(self, login):
+        new_user = models.User.query.filter_by(login=login.data).first()
+        if new_user:
+            raise ValidationError('Toks vartotojas jau egzistuoja')
+
+    def check_email(self, e_mail):
+        new_email = models.User.query.filter_by(e_mail=e_mail.data).first()
+        if new_email:
+            raise ValidationError('toks el.paštas jau egzistuoja')
 
