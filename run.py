@@ -1,4 +1,4 @@
-from autoservisas import __init__
+from autoservisas import app
 
 if __name__ == '__main__':
-    __init__.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True)

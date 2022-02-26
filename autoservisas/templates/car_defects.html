@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ car.make }} {{ car.model }} {{ car.year }}</h1>
+{% if all_car_defects %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Gedimas</th>
+      <th scope="col">Statusas</th>
+      <th scope="col">Kaina</th>
+    </tr>
+  </thead>
+  {% for defect in all_car_defects %}
+  <tr>
+    <td>{{ defect.description }}</td>
+    <td>{{ defect.status }}</td>
+    <td>{{ defect.price }}</td>
+  </tr>
+  {% endfor %} {% else %}
+  <ul class="list-group">
+    <li class="list-group-item">Sis automobilis gedimu istorijos neturi</li>
+  </ul>
+  {% endif %} {% endblock content %}
+</table>

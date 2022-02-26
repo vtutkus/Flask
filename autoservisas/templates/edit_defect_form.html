@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block content %} {% if defect %}
+<h1>{{ car.make }} {{ car.model }} {{ car.year }}</h1>
+{% endif %}
+<form method="post" action="#">
+  {{form.hidden_tag()}}
+  <div class="form-group">
+    {{form.status.label(class="form-control-label")}} {% if defect %}
+    {{form.status(class="form-control", value=defect.status)}} {% else %}
+    {{form.status(class="form-control")}} {% endif %}
+  </div>
+  <div class="form-group">
+    {{form.price.label(class="form-control-label")}} {% if defect %}
+    {{form.price(class="form-control", value=defect.price)}} {% else %}
+    {{form.price(class="form-control")}} {% endif %}
+  </div>
+  {{form.submit()}}
+</form>
+{% endblock content %}
