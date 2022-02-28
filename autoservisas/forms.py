@@ -21,16 +21,6 @@ class RegistrationForm(FlaskForm):
                                  EqualTo('password', "Slaptazodis nesutampa")])
     submit = SubmitField('Registruotis')
 
-    def check_login(self, login):
-        new_user = models.User.query.filter_by(login=login.data).first()
-        if new_user:
-            raise ValidationError('Toks vartotojas jau egzistuoja')
-
-    def check_email(self, e_mail):
-        new_email = models.User.query.filter_by(e_mail=e_mail.data).first()
-        if new_email:
-            raise ValidationError('toks el.paštas jau egzistuoja')
-
 
 class LoginForm(FlaskForm):
     e_mail = StringField(
@@ -45,16 +35,6 @@ class ProfileForm(FlaskForm):
     e_mail = StringField(
         'El.paštas', [DataRequired(), Email(MESSAGE_BAD_EMAIL)])
     submit = SubmitField('Atnaujinti')
-
-    def check_login(self, login):
-        new_user = models.User.query.filter_by(login=login.data).first()
-        if new_user:
-            raise ValidationError('Toks vartotojas jau egzistuoja')
-
-    def check_email(self, e_mail):
-        new_email = models.User.query.filter_by(e_mail=e_mail.data).first()
-        if new_email:
-            raise ValidationError('toks el.paštas jau egzistuoja')
 
 
 class CarForm(FlaskForm):

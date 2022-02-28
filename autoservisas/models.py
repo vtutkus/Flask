@@ -42,7 +42,6 @@ class Defect(db.Model):
     description = db.Column(db.String(300), nullable=False)
     status = db.Column(db.String(50), default='naujas', nullable=False)
     price = db.Column(db.Numeric(8, 2), nullable=False, default=0)
-    # price = db.Column(db.String(50), nullable=False, default=0)
     car_id = db.Column(db.Integer, db.ForeignKey('car.id'))
     car = db.relationship("Car", lazy=True)
 

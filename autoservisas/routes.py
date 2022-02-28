@@ -43,9 +43,12 @@ def registration():
             is_admin=is_first_user,
             is_worker=is_first_user
         )
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Sėkmingai prisiregistravote! Galite prisijungti.', 'success')
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Sėkmingai prisiregistravote! Galite prisijungti.', 'success')
+        except:
+            flash('Toks vartotojas arba el. pastas jau egzistuoja sistemoje', 'danger')
         return redirect(url_for('home'))
     return render_template('registration.html', form=form, current_user=current_user)
 
@@ -74,10 +77,13 @@ def login():
 def profile():
     form = forms.ProfileForm()
     if form.validate_on_submit():
-        current_user.login = form.login.data
-        current_user.e_mail = form.e_mail.data
-        db.session.commit()
-        flash('Profilis atnaujintas!', 'success')
+        try:
+            current_user.login = form.login.data
+            current_user.e_mail = form.e_mail.data
+            db.session.commit()
+            flash('Profilis atnaujintas!', 'success')
+        except:
+            flash('Toks vartotojas arba el. pastas jau egzistuoja sistemoje', 'danger')
         return redirect(url_for('profile'))
     elif request.method == "GET":
         form.login.data = current_user.login
@@ -108,9 +114,12 @@ def new_car():
             vin=form.vin.data,
             user_id=current_user.id
         )
-        db.session.add(new_car)
-        db.session.commit()
-        flash(f'Automobilis {new_car} sekmingai sukurtas', 'success')
+        try:
+            db.session.add(new_car)
+            db.session.commit()
+            flash(f'Automobilis {new_car} sekmingai sukurtas', 'success')
+        except:
+            flash('Automobilis su tokiu valstybiniu numeriu arb VIN jau egzistuoja sistemoje', 'danger')
         return redirect(url_for('cars'))
     return render_template("car_form.html", form=form)
 
@@ -129,8 +138,11 @@ def edit_car(id):
         car.engine = form.engine.data
         car.registration = form.registration.data
         car.vin = form.vin.data
-        db.session.commit()
-        flash(f'Automobilis {car} sekmingai atnaujintas', 'success')
+        try:
+            db.session.commit()
+            flash(f'Automobilis {car} sekmingai atnaujintas', 'success')
+        except:
+            flash('Automobilis su tokiu valstybiniu numeriu arb VIN jau egzistuoja sistemoje', 'danger')
         return redirect(url_for('cars'))
     return render_template("car_form.html", form=form, car=car)
 
